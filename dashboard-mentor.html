@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard Mentor | Tutor Sebaya</title>
+    <meta name="description" content="Dashboard mentor Tutor Sebaya." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="dashboard-body">
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand">
+          <span class="brand-mark">TS</span>
+          <span>Tutor Sebaya</span>
+        </div>
+        <nav class="nav-links">
+          <a href="#">Dashboard</a>
+          <a href="#">Booking</a>
+          <a href="#">Jadwal</a>
+          <a href="#">Saldo</a>
+          <a href="#">Profil</a>
+        </nav>
+        <a href="index.html" class="nav-cta small">Keluar</a>
+      </div>
+    </header>
+
+    <main class="dashboard-page">
+      <div class="container dashboard-grid">
+        <aside class="sidebar-panel">
+          <div class="profile-box">
+            <div class="avatar large alt">AR</div>
+            <div>
+              <h3>Arif Rahman</h3>
+              <p>Mentor Terverifikasi</p>
+            </div>
+          </div>
+
+          <div class="sidebar-menu">
+            <a class="active" href="#">Dashboard</a>
+            <a href="#">Booking Masuk</a>
+            <a href="#">Jadwal Saya</a>
+            <a href="#">Saldo</a>
+            <a href="#">Ulasan</a>
+          </div>
+        </aside>
+
+        <section class="main-panel">
+          <div class="welcome-bar">
+            <div>
+              <span class="eyebrow">Selamat datang</span>
+              <h2>Kelola sesi mengajar Anda</h2>
+            </div>
+            <a href="#" class="nav-cta small">Tambah Jadwal</a>
+          </div>
+
+          <div class="stats-grid dashboard-stats">
+            <div class="metric-box glow">
+              <strong>12</strong>
+              <span>Booking baru</span>
+            </div>
+            <div class="metric-box glow">
+              <strong>Rp 540K</strong>
+              <span>Saldo bulan ini</span>
+            </div>
+            <div class="metric-box glow">
+              <strong>4.9</strong>
+              <span>Rating</span>
+            </div>
+            <div class="metric-box glow">
+              <strong>18</strong>
+              <span>Sesi selesai</span>
+            </div>
+          </div>
+
+          <div class="content-row">
+            <div class="panel-card dashboard-card">
+              <div class="panel-header-between">
+                <h3>Booking Masuk</h3>
+                <span class="tag warning">Perlu Respon</span>
+              </div>
+              <ul class="session-list">
+                <li>
+                  <div>
+                    <strong>Aljabar Matriks</strong>
+                    <span>Alya Mutiara • Kamis, 13.00</span>
+                  </div>
+                  <button class="action-btn accept">Terima</button>
+                </li>
+                <li>
+                  <div>
+                    <strong>Statistika</strong>
+                    <span>Rafa Putra • Jumat, 10.00</span>
+                  </div>
+                  <button class="action-btn reject">Tolak</button>
+                </li>
+              </ul>
+            </div>
+
+            <div class="panel-card dashboard-card">
+              <div class="panel-header-between">
+                <h3>Jadwal Hari Ini</h3>
+                <span class="tag success">Siap</span>
+              </div>
+              <ul class="session-list">
+                <li>
+                  <div>
+                    <strong>Matematika</strong>
+                    <span>09.00 - 10.30</span>
+                  </div>
+                  <span class="status-label blue">Online</span>
+                </li>
+                <li>
+                  <div>
+                    <strong>Data Mining</strong>
+                    <span>13.30 - 15.00</span>
+                  </div>
+                  <span class="status-label green">Luring</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

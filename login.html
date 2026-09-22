@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Masuk | Tutor Sebaya</title>
+    <meta name="description" content="Masuk ke Tutor Sebaya sebagai mahasiswa atau mentor." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="auth-body">
+    <div class="auth-shell">
+      <div class="auth-card">
+        <div class="auth-brand">
+          <span class="brand-mark">TS</span>
+          <span>Tutor Sebaya</span>
+        </div>
+
+        <div class="auth-header">
+          <span class="eyebrow">Welcome back</span>
+          <h1>Masuk ke akun Anda</h1>
+        </div>
+
+        <div class="auth-tabs">
+          <button class="auth-tab active" type="button">Mahasiswa</button>
+          <button class="auth-tab" type="button">Mentor</button>
+        </div>
+
+        <form class="auth-form">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="contoh@email.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="password">Kata sandi</label>
+            <input id="password" type="password" placeholder="Masukkan kata sandi" />
+          </div>
+
+          <div class="form-row between">
+            <label class="check-inline">
+              <input type="checkbox" />
+              <span>Ingat saya</span>
+            </label>
+            <a href="index.html">Lupa kata sandi?</a>
+          </div>
+
+          <button type="submit" class="submit-btn">Masuk</button>
+        </form>
+
+        <div class="auth-footer">
+          <p>Belum punya akun?</p>
+          <a href="register.html">Daftar sekarang</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      const tabs = document.querySelectorAll('.auth-tab');
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabs.forEach((item) => item.classList.toggle('active', item === tab));
+        });
+      });
+    </script>
+  </body>
+</html>

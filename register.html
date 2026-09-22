@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daftar | Tutor Sebaya</title>
+    <meta name="description" content="Daftar sebagai mahasiswa yang mau diajar atau mentor yang ingin mengajar di Tutor Sebaya." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        background: linear-gradient(180deg, #f4f7fb 0%, #eef5ff 100%);
+      }
+
+      .register-shell {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 40px 20px;
+      }
+
+      .register-box {
+        width: min(1100px, 100%);
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: var(--shadow);
+      }
+
+      .register-left {
+        background: linear-gradient(135deg, #0f172a 0%, #163874 52%, #1f6feb 100%);
+        color: #fff;
+        padding: 42px 34px;
+      }
+
+      .register-left h1 {
+        margin: 0 0 18px;
+        font-size: clamp(2rem, 3vw, 3rem);
+        letter-spacing: -0.05em;
+      }
+
+      .register-left p {
+        color: rgba(255,255,255,0.8);
+        margin: 0 0 28px;
+        max-width: 500px;
+      }
+
+      .info-list {
+        display: grid;
+        gap: 16px;
+      }
+
+      .info-item {
+        background: rgba(255,255,255,0.08);
+        border: 1px solid rgba(255,255,255,0.12);
+        border-radius: 18px;
+        padding: 16px 18px;
+      }
+
+      .info-item strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 1rem;
+      }
+
+      .info-item span {
+        color: rgba(255,255,255,0.78);
+      }
+
+      .register-right {
+        padding: 34px 28px;
+      }
+
+      .tab-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        background: #eef4ff;
+        border-radius: 16px;
+        padding: 8px;
+        margin-bottom: 24px;
+      }
+
+      .tab {
+        padding: 12px 14px;
+        border-radius: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        background: transparent;
+        transition: 0.2s ease;
+      }
+
+      .tab.active {
+        background: #fff;
+        color: var(--text);
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      }
+
+      .role-panel {
+        display: none;
+        gap: 18px;
+      }
+
+      .role-panel.active {
+        display: grid;
+      }
+
+      form {
+        display: grid;
+        gap: 18px;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      .form-group {
+        display: grid;
+        gap: 8px;
+      }
+
+      label {
+        font-size: 0.92rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 0.9rem 0.95rem;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #fff;
+        font: inherit;
+        color: var(--text);
+      }
+
+      input:focus,
+      select:focus {
+        outline: 3px solid rgba(31, 111, 235, 0.12);
+        border-color: var(--primary);
+      }
+
+      .checkbox {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 0.92rem;
+      }
+
+      .checkbox input {
+        width: 18px;
+        height: 18px;
+        margin-top: 2px;
+      }
+
+      .submit-btn {
+        width: 100%;
+        padding: 1rem 1.2rem;
+        border-radius: 14px;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: white;
+        box-shadow: 0 14px 25px rgba(31, 111, 235, 0.22);
+      }
+
+      .action-row {
+        display: flex;
+        gap: 12px;
+      }
+
+      .secondary-btn {
+        flex: 1;
+        padding: 1rem 1.2rem;
+        border-radius: 14px;
+        font-weight: 700;
+        background: #eef4ff;
+        color: var(--text);
+        border: 1px solid var(--line);
+      }
+
+      .mini-link {
+        text-align: center;
+        color: var(--muted);
+        margin-top: 8px;
+      }
+
+      .mini-link a {
+        color: var(--primary);
+        font-weight: 700;
+      }
+
+      @media (max-width: 860px) {
+        .register-box {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .field-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="register-shell">
+      <div class="register-box">
+        <aside class="register-left">
+          <span class="eyebrow" style="color: rgba(255,255,255,0.82);">Tutor Sebaya</span>
+          <h1>Gabung jadi bagian dari komunitas belajar kampus.</h1>
+          <p>
+            Pilih peran Anda. Jika Anda ingin belajar, daftar sebagai mahasiswa. Jika Anda siap membantu, daftar sebagai mentor.
+          </p>
+
+          <div class="info-list">
+            <div class="info-item">
+              <strong>Untuk Mahasiswa</strong>
+              <span>Cari tutor berdasarkan mata kuliah, jadwal, dan kebutuhan belajar Anda.</span>
+            </div>
+            <div class="info-item">
+              <strong>Untuk Mentor</strong>
+              <span>Bagikan ilmu Anda, kelola jadwal, dan dapatkan penghasilan tambahan.</span>
+            </div>
+          </div>
+        </aside>
+
+        <section class="register-right">
+          <div class="tab-row">
+            <button class="tab active" type="button" data-role="mahasiswa">Mahasiswa</button>
+            <button class="tab" type="button" data-role="mentor">Mentor</button>
+          </div>
+
+          <div id="mahasiswa-panel" class="role-panel active">
+            <form>
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="nama-mhs">Nama lengkap</label>
+                  <input id="nama-mhs" type="text" placeholder="Masukkan nama Anda" />
+                </div>
+                <div class="form-group">
+                  <label for="email-mhs">Email</label>
+                  <input id="email-mhs" type="email" placeholder="contoh@email.com" />
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="prodi-mhs">Program studi</label>
+                  <input id="prodi-mhs" type="text" placeholder="Contoh: Teknik Informatika" />
+                </div>
+                <div class="form-group">
+                  <label for="angkatan-mhs">Angkatan</label>
+                  <input id="angkatan-mhs" type="text" placeholder="Contoh: 2024" />
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="password-mhs">Kata sandi</label>
+                  <input id="password-mhs" type="password" placeholder="Min. 8 karakter" />
+                </div>
+                <div class="form-group">
+                  <label for="kebutuhan-mhs">Kebutuhan belajar</label>
+                  <select id="kebutuhan-mhs">
+                    <option value="">Pilih kebutuhan</option>
+                    <option>Matematika</option>
+                    <option>Aljabar Matriks</option>
+                    <option>Kalkulus</option>
+                    <option>Statistika</option>
+                    <option>Pemrograman</option>
+                  </select>
+                </div>
+              </div>
+
+              <label class="checkbox">
+                <input type="checkbox" />
+                <span>Saya ingin mengikuti sesi belajar yang sesuai kebutuhan saya.</span>
+              </label>
+
+              <div class="action-row">
+                <button type="button" class="secondary-btn" data-back-role="mentor">Kembali ke Mentor</button>
+                <button type="submit" class="submit-btn">Daftar sebagai Mahasiswa</button>
+              </div>
+            </form>
+          </div>
+
+          <div id="mentor-panel" class="role-panel">
+            <form>
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="nama-mentor">Nama lengkap</label>
+                  <input id="nama-mentor" type="text" placeholder="Masukkan nama Anda" />
+                </div>
+                <div class="form-group">
+                  <label for="email-mentor">Email</label>
+                  <input id="email-mentor" type="email" placeholder="contoh@email.com" />
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="prodi-mentor">Program studi</label>
+                  <input id="prodi-mentor" type="text" placeholder="Contoh: Teknik Informatika" />
+                </div>
+                <div class="form-group">
+                  <label for="angkatan-mentor">Angkatan</label>
+                  <input id="angkatan-mentor" type="text" placeholder="Contoh: 2023" />
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="password-mentor">Kata sandi</label>
+                  <input id="password-mentor" type="password" placeholder="Min. 8 karakter" />
+                </div>
+                <div class="form-group">
+                  <label for="matkul-mentor">Mata kuliah yang diajarkan</label>
+                  <select id="matkul-mentor">
+                    <option value="">Pilih mata kuliah</option>
+                    <option>Matematika</option>
+                    <option>Aljabar Matriks</option>
+                    <option>Kalkulus</option>
+                    <option>Statistika</option>
+                    <option>Pemrograman</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="field-grid">
+                <div class="form-group">
+                  <label for="tarif-mentor">Tarif per sesi</label>
+                  <input id="tarif-mentor" type="number" placeholder="Contoh: 50000" />
+                </div>
+                <div class="form-group">
+                  <label for="jadwal-mentor">Jadwal tersedia</label>
+                  <input id="jadwal-mentor" type="text" placeholder="Contoh: Senin, Rabu" />
+                </div>
+              </div>
+
+              <label class="checkbox">
+                <input type="checkbox" />
+                <span>Saya siap menjadi mentor sebaya dan mengikuti proses validasi profil.</span>
+              </label>
+
+              <div class="action-row">
+                <button type="button" class="secondary-btn" data-back-role="mahasiswa">Kembali ke Mahasiswa</button>
+                <button type="submit" class="submit-btn">Daftar sebagai Mentor</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="mini-link">
+            Sudah punya akun? <a href="index.html">Kembali ke beranda</a>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+      const tabs = document.querySelectorAll('.tab');
+      const panels = {
+        mahasiswa: document.getElementById('mahasiswa-panel'),
+        mentor: document.getElementById('mentor-panel')
+      };
+
+      function switchRole(selectedRole) {
+        tabs.forEach((tab) => {
+          tab.classList.toggle('active', tab.dataset.role === selectedRole);
+        });
+
+        Object.entries(panels).forEach(([role, panel]) => {
+          panel.classList.toggle('active', role === selectedRole);
+        });
+      }
+
+      tabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          switchRole(tab.dataset.role);
+        });
+      });
+
+      document.querySelectorAll('.secondary-btn').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          switchRole(btn.dataset.backRole);
+        });
+      });
+
+      document.querySelectorAll('form').forEach((form) => {
+        form.addEventListener('submit', (event) => {
+          event.preventDefault();
+
+          const currentPanel = form.closest('.role-panel');
+          const currentRole = currentPanel && currentPanel.id === 'mentor-panel' ? 'mentor' : 'mahasiswa';
+          const dashboardPage = currentRole === 'mahasiswa' ? 'dashboard-mahasiswa.html' : 'dashboard-mentor.html';
+
+          window.location.href = dashboardPage;
+        });
+      });
+    </script>
+  </body>
+</html>
