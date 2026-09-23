@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Mentor | Tutor Sebaya</title>
-    <meta name="description" content="Dashboard mentor Tutor Sebaya." />
+    <title>Dashboard Mahasiswa | Tutor Sebaya</title>
+    <meta name="description" content="Dashboard mahasiswa Tutor Sebaya." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -19,9 +19,9 @@
         </div>
         <nav class="nav-links">
           <a href="#">Dashboard</a>
-          <a href="#">Booking</a>
+          <a href="cari-tutor.html">Cari Tutor</a>
           <a href="#">Jadwal</a>
-          <a href="#">Saldo</a>
+          <a href="riwayat-sesi.html">Riwayat</a>
           <a href="#">Profil</a>
         </nav>
         <a href="index.html" class="nav-cta small">Keluar</a>
@@ -32,97 +32,94 @@
       <div class="container dashboard-grid">
         <aside class="sidebar-panel">
           <div class="profile-box">
-            <div class="avatar large alt">AR</div>
+            <div class="avatar large">DH</div>
             <div>
-              <h3>Arif Rahman</h3>
-              <p>Mentor Terverifikasi</p>
+              <h3>Dariel Hikam</h3>
+              <p>Mahasiswa Aktif</p>
             </div>
           </div>
 
           <div class="sidebar-menu">
             <a class="active" href="#">Dashboard</a>
-            <a href="#">Booking Masuk</a>
-            <a href="#">Jadwal Saya</a>
-            <a href="#">Saldo</a>
-            <a href="#">Ulasan</a>
+            <a href="cari-tutor.html">Cari Tutor</a>
+            <a href="booking-saya.html">Booking Saya</a>
+            <a href="riwayat-sesi.html">Riwayat Sesi</a>
           </div>
         </aside>
 
         <section class="main-panel">
           <div class="welcome-bar">
             <div>
-              <span class="eyebrow">Selamat datang</span>
-              <h2>Kelola sesi mengajar Anda</h2>
+              <span class="eyebrow">Halo, Dariel</span>
+              <h2>Jadwal belajar Anda</h2>
             </div>
-            <a href="#" class="nav-cta small">Tambah Jadwal</a>
+            <a href="cari-tutor.html" class="nav-cta small">Cari Tutor</a>
           </div>
 
           <div class="stats-grid dashboard-stats">
             <div class="metric-box glow">
-              <strong>12</strong>
-              <span>Booking baru</span>
+              <strong>3</strong>
+              <span>Sesi aktif</span>
             </div>
             <div class="metric-box glow">
-              <strong>Rp 540K</strong>
-              <span>Saldo bulan ini</span>
+              <strong>2</strong>
+              <span>Booking menunggu</span>
             </div>
             <div class="metric-box glow">
-              <strong>4.9</strong>
-              <span>Rating</span>
+              <strong>4.8</strong>
+              <span>Rating rata-rata</span>
             </div>
             <div class="metric-box glow">
-              <strong>18</strong>
-              <span>Sesi selesai</span>
+              <strong>8</strong>
+              <span>Materi dipelajari</span>
             </div>
           </div>
 
           <div class="content-row">
             <div class="panel-card dashboard-card">
               <div class="panel-header-between">
-                <h3>Booking Masuk</h3>
-                <span class="tag warning">Perlu Respon</span>
+                <h3>Sesi Mendatang</h3>
+                <span class="tag success">Terjadwal</span>
               </div>
               <ul class="session-list">
                 <li>
                   <div>
-                    <strong>Aljabar Matriks</strong>
-                    <span>Alya Mutiara • Kamis, 13.00</span>
+                    <strong><a href="cari-tutor.html?matkul=Matematika" class="search-link">Matematika Diskrit</a></strong>
+                    <span>Rabu, 15.00 - 16.30</span>
                   </div>
-                  <a class="action-btn detail" href="booking-detail.html?booking=1" target="_blank" rel="noopener noreferrer">Detail</a>
-                  <button class="action-btn accept">Terima</button>
+                  <span class="status-label blue">Online</span>
                 </li>
                 <li>
                   <div>
-                    <strong>Statistika</strong>
-                    <span>Rafa Putra • Jumat, 10.00</span>
+                    <strong><a href="cari-tutor.html?matkul=Statistika" class="search-link">Statistika</a></strong>
+                    <span>Jumat, 10.00 - 11.30</span>
                   </div>
-                  <a class="action-btn detail" href="booking-detail.html?booking=2" target="_blank" rel="noopener noreferrer">Detail</a>
-                  <button class="action-btn reject">Tolak</button>
+                  <span class="status-label green">Luring</span>
                 </li>
               </ul>
             </div>
 
             <div class="panel-card dashboard-card">
               <div class="panel-header-between">
-                <h3>Jadwal Hari Ini</h3>
-                <span class="tag success">Siap</span>
+                <h3>Rekomendasi Tutor</h3>
+                <span class="tag info">Baru</span>
               </div>
-              <ul class="session-list">
-                <li>
+              <div class="mini-tutor-list">
+                <div class="mini-profile">
+                  <div class="avatar small">AR</div>
                   <div>
-                    <strong>Matematika</strong>
-                    <span>09.00 - 10.30</span>
+                    <strong>Arif Rahman</strong>
+                    <span><a href="cari-tutor.html?matkul=Statistika" class="search-link">Statistika</a> • 4.9</span>
                   </div>
-                  <span class="status-label blue">Online</span>
-                </li>
-                <li>
+                </div>
+                <div class="mini-profile">
+                  <div class="avatar small">DS</div>
                   <div>
-                    <strong>Data Mining</strong>
-                    <span>13.30 - 15.00</span>
+                    <strong>Dewi Sari</strong>
+                    <span><a href="cari-tutor.html?matkul=Aljabar Matriks" class="search-link">Aljabar</a> • 4.8</span>
                   </div>
-                  <span class="status-label green">Luring</span>
-                </li>
-              </ul>
+                </div>
+              </div>
             </div>
           </div>
         </section>

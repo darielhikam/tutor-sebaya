@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Detail Booking | Tutor Sebaya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand"><span class="brand-mark">TS</span> Tutor Sebaya</div>
+        <nav class="nav-links">
+          <a href="dashboard-mentor.html">Dashboard</a>
+          <a href="booking-saya.html">Booking</a>
+          <a href="#">Profil</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <div class="container">
+        <section class="panel-card" id="booking-detail-card">
+          <div class="panel-head">
+            <h2 id="bd-title">Detail Booking</h2>
+            <div class="muted" id="bd-status">Status</div>
+          </div>
+
+          <div style="display:grid;gap:12px">
+            <div class="content-row" style="grid-template-columns:1fr 320px;">
+              <div>
+                <h3 id="bd-student">Nama Mahasiswa</h3>
+                <div class="muted" id="bd-matkul">Mata Kuliah</div>
+                <p id="bd-topic" class="muted" style="margin-top:10px">Topik / Deskripsi</p>
+
+                <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:12px">
+                  <div class="panel-card" style="padding:12px">
+                    <strong id="bd-date">Tanggal</strong>
+                    <div class="muted">Waktu</div>
+                  </div>
+                  <div class="panel-card" style="padding:12px">
+                    <strong id="bd-duration">Durasi</strong>
+                    <div class="muted">Durasi sesi</div>
+                  </div>
+                </div>
+
+                <div style="margin-top:12px">
+                  <h4>Catatan dari Mahasiswa</h4>
+                  <div class="content-card" id="bd-notes" style="padding:12px">-</div>
+                </div>
+              </div>
+
+              <aside>
+                <div class="panel-card" style="padding:14px">
+                  <div class="avatar large" id="bd-avatar">AR</div>
+                  <h4 style="margin-top:10px" id="bd-tutor">Nama Tutor</h4>
+                  <div class="muted" id="bd-mode">Mode</div>
+
+                  <div style="margin-top:12px;display:flex;gap:8px">
+                    <button id="bd-accept" class="submit-btn">Terima</button>
+                    <button id="bd-reject" class="cancel">Tolak</button>
+                  </div>
+                </div>
+              </aside>
+            </div>
+
+            <div style="margin-top:8px" class="muted">ID Booking: <span id="bd-id">-</span></div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // sample data mirror (matches items from dashboard-mentor)
+      const bookings = {
+        '1': { id:1, student:'Alya Mutiara', matkul:'Aljabar Matriks', topic:'Pembahasan soal UAS bab 3', date:'Kamis, 13 April 2026', time:'13:00', duration:'90 menit', status:'Menunggu', notes:'Mohon fokus pada matriks invers dan determinan', tutor:'Arif Rahman', mode:'Luring' },
+        '2': { id:2, student:'Rafa Putra', matkul:'Statistika', topic:'Praktik analisis regresi', date:'Jumat, 15 April 2026', time:'10:00', duration:'90 menit', status:'Menunggu', notes:'Bawa dataset Excel', tutor:'Arif Rahman', mode:'Online' }
+      };
+
+      function qs(id){ return document.getElementById(id); }
+
+      function renderBooking(id){
+        const b = bookings[id];
+        if (!b) return qs('booking-detail-card').innerHTML = '<p>Booking tidak ditemukan.</p>';
+        qs('bd-title').textContent = b.matkul + ' — ' + b.topic;
+        qs('bd-status').textContent = b.status;
+        qs('bd-student').textContent = b.student;
+        qs('bd-matkul').textContent = b.matkul + ' • ' + b.time;
+        qs('bd-topic').textContent = b.topic;
+        qs('bd-date').textContent = b.date;
+        qs('bd-duration').textContent = b.duration;
+        qs('bd-notes').textContent = b.notes;
+        qs('bd-id').textContent = b.id;
+        qs('bd-avatar').textContent = b.tutor.split(' ').map(n=>n[0]).slice(0,2).join('');
+        qs('bd-tutor').textContent = b.tutor;
+        qs('bd-mode').textContent = b.mode;
+
+        // accept / reject actions: keep simple and mirror behavior
+        qs('bd-accept').addEventListener('click', ()=>{ alert('Booking diterima'); });
+        qs('bd-reject').addEventListener('click', ()=>{ if (confirm('Tolak booking ini?')) alert('Booking ditolak'); });
+      }
+
+      // read param
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get('booking') || params.get('id') || '1';
+      renderBooking(id);
+    </script>
+  </body>
+</html>

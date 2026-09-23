@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Booking Saya | Tutor Sebaya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand"><span class="brand-mark">TS</span> Tutor Sebaya</div>
+        <nav class="nav-links">
+          <a href="dashboard-mahasiswa.html">Dashboard</a>
+          <a href="cari-tutor.html">Cari Tutor</a>
+          <a href="booking-saya.html" class="active">Booking Saya</a>
+        </nav>
+        <a href="index.html" class="nav-cta small">Keluar</a>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="panel-card">
+        <div class="panel-head">
+          <h2>Booking Saya</h2>
+          <div class="muted">Kelola booking yang sudah Anda buat</div>
+        </div>
+
+        <div id="bookings" style="margin-top:18px" class="booking-list"></div>
+      </section>
+    </main>
+
+    <!-- Cancel confirmation modal -->
+    <div id="cancel-backdrop" class="modal-backdrop" style="display:none">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h3>Konfirmasi Pembatalan</h3>
+        <p class="muted">Apakah Anda yakin ingin membatalkan booking ini?</p>
+        <div class="modal-actions">
+          <button id="cancel-no" class="cancel">Batal</button>
+          <button id="cancel-yes" class="confirm">Ya, Batalkan</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const bookings = [
+        { id:1, tutor:'Arif Rahman', matkul:'Statistika', when:'Jumat, 10.00 - 11.30', status:'Menunggu' },
+        { id:2, tutor:'Dewi Sari', matkul:'Aljabar Matriks', when:'Sabtu, 14.00 - 15.30', status:'Dikonfirmasi' }
+      ];
+
+      const el = document.getElementById('bookings');
+
+      function render() {
+        if (!bookings.length) { el.innerHTML = '<div class="booking-empty">Tidak ada booking.</div>'; return; }
+        el.innerHTML = bookings.map(b => `
+          <div class="tutor-card">
+            <div class="tutor-left"><div class="avatar small">${b.tutor.split(' ').map(n=>n[0]).slice(0,2).join('')}</div></div>
+            <div class="tutor-mid">
+              <strong>${b.tutor}</strong>
+              <div class="muted">${b.matkul} • ${b.when}</div>
+              <div class="muted">Status: <span class="status-pill ${b.status.toLowerCase().replace(/\s+/g,'')}">${b.status}</span></div>
+            </div>
+            <div class="tutor-right">
+              <button class="submit-btn" data-id="${b.id}" data-action="cancel">Batalkan</button>
+            </div>
+          </div>
+        `).join('');
+
+        document.querySelectorAll('button[data-action="cancel"]').forEach(btn => {
+          btn.addEventListener('click', (e)=>{
+            const id = Number(btn.dataset.id);
+            openCancelModal(id);
+          });
+        });
+      }
+
+      render();
+
+      // toast
+      function showToast(text, variant){
+        const t = document.createElement('div');
+        t.className = 'toast-note ' + (variant||'');
+        t.textContent = text;
+        document.body.appendChild(t);
+        setTimeout(()=>{ t.style.opacity = '0'; t.style.transform = 'translateY(6px)'; }, 2200);
+        setTimeout(()=> t.remove(), 2600);
+      }
+
+      // cancel modal logic
+      const cancelBackdrop = document.getElementById('cancel-backdrop');
+      const cancelYes = document.getElementById('cancel-yes');
+      const cancelNo = document.getElementById('cancel-no');
+      let cancelTargetId = null;
+
+      function openCancelModal(id){
+        cancelTargetId = id;
+        cancelBackdrop.style.display = 'flex';
+      }
+
+      function closeCancelModal(){
+        cancelBackdrop.style.display = 'none';
+        cancelTargetId = null;
+      }
+
+      cancelNo.addEventListener('click', closeCancelModal);
+      cancelBackdrop.addEventListener('click', (e)=>{ if (e.target === cancelBackdrop) closeCancelModal(); });
+      cancelYes.addEventListener('click', ()=>{
+        if (cancelTargetId == null) return closeCancelModal();
+        const idx = bookings.findIndex(x=>x.id===cancelTargetId);
+        if (idx >= 0) bookings.splice(idx,1);
+        render();
+        showToast('Booking dibatalkan.','success');
+        closeCancelModal();
+      });
+    </script>
+  </body>
+</html>

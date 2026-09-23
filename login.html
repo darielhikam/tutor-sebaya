@@ -60,10 +60,19 @@
     <script src="script.js"></script>
     <script>
       const tabs = document.querySelectorAll('.auth-tab');
+      let currentRole = 'mahasiswa';
+
       tabs.forEach((tab) => {
         tab.addEventListener('click', () => {
           tabs.forEach((item) => item.classList.toggle('active', item === tab));
+          currentRole = tab.textContent.trim().toLowerCase();
         });
+      });
+
+      document.querySelector('.auth-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const destination = currentRole === 'mentor' ? 'dashboard-mentor.html' : 'dashboard-mahasiswa.html';
+        window.location.href = destination;
       });
     </script>
   </body>

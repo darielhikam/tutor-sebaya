@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Riwayat Sesi | Tutor Sebaya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand"><span class="brand-mark">TS</span> Tutor Sebaya</div>
+        <nav class="nav-links">
+          <a href="dashboard-mahasiswa.html">Dashboard</a>
+          <a href="cari-tutor.html">Cari Tutor</a>
+          <a href="riwayat-sesi.html" class="active">Riwayat</a>
+        </nav>
+        <a href="index.html" class="nav-cta small">Keluar</a>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="panel-card">
+        <div class="panel-head">
+          <h2>Riwayat Sesi</h2>
+          <div class="muted">Rekam sesi yang sudah selesai dan beri penilaian.</div>
+        </div>
+
+        <div id="history-list" style="margin-top:18px"></div>
+      </section>
+    </main>
+
+    <!-- Review modal -->
+    <div id="review-backdrop" class="modal-backdrop" style="display:none">
+      <div class="modal" role="dialog" aria-modal="true">
+        <h3>Beri Review</h3>
+        <div class="muted">Tulis ulasan singkat untuk tutor Anda. Nama Anda akan ditampilkan bersama review.</div>
+        <div class="modal-row" style="margin-top:12px">
+          <input id="review-title" type="text" placeholder="Judul review (opsional)" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line)">
+        </div>
+        <div style="margin-top:12px;display:flex;gap:10px;">
+          <input id="review-name" type="text" placeholder="Nama Anda" style="flex:1;padding:10px;border-radius:10px;border:1px solid var(--line)">
+          <input id="review-device" type="text" placeholder="Peran (opsional)" style="width:160px;padding:10px;border-radius:10px;border:1px solid var(--line)">
+        </div>
+        <div class="modal-row" style="margin-top:12px">
+          <select id="rating-select">
+            <option value="5">5 — Sangat Baik</option>
+            <option value="4">4 — Baik</option>
+            <option value="3">3 — Cukup</option>
+            <option value="2">2 — Kurang</option>
+            <option value="1">1 — Buruk</option>
+          </select>
+        </div>
+        <div style="margin-top:12px">
+          <textarea id="review-text" rows="4" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line)"></textarea>
+        </div>
+        <div class="modal-actions">
+          <button id="review-cancel" class="cancel">Batal</button>
+          <button id="review-save" class="submit-btn">Simpan Review</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const sessions = [
+        { id:1, tutor:'Arif Rahman', matkul:'Statistika', date:'2026-08-12', duration:'90 menit', status:'Selesai', notes:'Pembahasan statistik deskriptif.' },
+        { id:2, tutor:'Dewi Sari', matkul:'Aljabar Matriks', date:'2026-08-03', duration:'90 menit', status:'Selesai', notes:'Latihan soal matriks.' }
+      ];
+
+      const listEl = document.getElementById('history-list');
+
+      function renderHistory(){
+        if (!sessions.length) { listEl.innerHTML = '<div class="booking-empty">Belum ada sesi yang selesai.</div>'; return; }
+        listEl.innerHTML = sessions.map(s=>{
+          const avatar = s.tutor.split(' ').map(n=>n[0]).slice(0,2).join('');
+          const dateStr = new Date(s.date).toLocaleDateString('id-ID');
+          let reviewHtml = '';
+          if (s.review) {
+            const stars = '★'.repeat(s.review.rating) + '☆'.repeat(5 - s.review.rating);
+            const dateStr = new Date(s.review.date).toLocaleString('id-ID');
+            const title = s.review.title ? `<div class=\"review-title\">${s.review.title}</div>` : '';
+            const device = s.review.device ? `<div class=\"muted\" style=\"margin-left:8px\">• ${s.review.device}</div>` : '';
+            reviewHtml = `
+            <div class="session-review">
+              <div class="review-item">
+                <div class="review-avatar">${s.review.user.split(' ').map(n=>n[0]).slice(0,2).join('')}</div>
+                <div class="review-content">
+                  <div class="review-header"><strong>${s.review.user}</strong><span class="muted review-small-date">${dateStr}</span>${device}</div>
+                  <div class="review-stars">${stars}</div>
+                  ${title}
+                  <div class="review-body">${s.review.text}</div>
+                  <div class="review-actions"><button class="helpful-btn">Bermanfaat</button></div>
+                </div>
+              </div>
+            </div>`;
+          }
+          return `
+          <div class="tutor-card">
+            <div class="tutor-left"><div class="avatar small">${avatar}</div></div>
+            <div class="tutor-mid">
+              <strong>${s.tutor}</strong>
+              <div class="muted">${s.matkul} • ${dateStr}</div>
+              <div class="muted">${s.duration} • ${s.notes}</div>
+              ${reviewHtml}
+            </div>
+            <div class="tutor-right">
+              <a href="#" class="secondary-btn" data-id="${s.id}" data-action="view">Detail</a>
+              <a href="#" class="submit-btn" data-id="${s.id}" data-action="review">Beri Review</a>
+            </div>
+          </div>
+        `}).join('');
+
+        // attach buttons
+        document.querySelectorAll('a[data-action="view"]').forEach(b=>{
+          b.addEventListener('click',(e)=>{ e.preventDefault(); const id=Number(b.dataset.id); viewDetail(id); });
+        });
+        document.querySelectorAll('a[data-action="review"]').forEach(b=>{
+          b.addEventListener('click',(e)=>{ e.preventDefault(); const id=Number(b.dataset.id); openReview(id); });
+        });
+      }
+
+      renderHistory();
+
+      // simple detail page (alert) for now
+      function viewDetail(id){
+        const s = sessions.find(x=>x.id===id);
+        if (!s) return;
+        alert(`${s.tutor} — ${s.matkul}\n${new Date(s.date).toLocaleDateString('id-ID')} • ${s.duration}\n\nCatatan: ${s.notes}`);
+      }
+
+      // review modal logic
+      const reviewBackdrop = document.getElementById('review-backdrop');
+      const reviewCancel = document.getElementById('review-cancel');
+      const reviewSave = document.getElementById('review-save');
+      let reviewTarget = null;
+
+      function openReview(id){ reviewTarget = id; reviewBackdrop.style.display = 'flex'; }
+      function closeReview(){ reviewBackdrop.style.display = 'none'; reviewTarget = null; }
+
+      reviewCancel.addEventListener('click', closeReview);
+      reviewBackdrop.addEventListener('click',(e)=>{ if (e.target===reviewBackdrop) closeReview(); });
+
+      reviewSave.addEventListener('click', ()=>{
+        const rating = Number(document.getElementById('rating-select').value);
+        const title = document.getElementById('review-title').value.trim();
+        const text = document.getElementById('review-text').value.trim();
+        const user = document.getElementById('review-name').value.trim() || 'Anda';
+        const device = document.getElementById('review-device').value.trim() || '';
+        if (!reviewTarget) return closeReview();
+        // append to sessions as a simple store with metadata
+        const s = sessions.find(x=>x.id===reviewTarget);
+        if (s) s.review = { rating, title, text, user, device, date: new Date().toISOString() };
+        renderHistory();
+        closeReview();
+        // show toast
+        const t = document.createElement('div'); t.className='toast-note success'; t.textContent='Review tersimpan'; document.body.appendChild(t);
+        setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateY(6px)'; },2200); setTimeout(()=>t.remove(),2600);
+      });
+    </script>
+  </body>
+</html>

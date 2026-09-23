@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Cari Tutor | Tutor Sebaya</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container nav">
+        <div class="brand"><span class="brand-mark">TS</span> Tutor Sebaya</div>
+        <nav class="nav-links">
+          <a href="dashboard-mahasiswa.html">Dashboard</a>
+          <a href="cari-tutor.html" class="active">Cari Tutor</a>
+          <a href="register.html">Daftar</a>
+        </nav>
+        <a href="index.html" class="nav-cta small">Keluar</a>
+      </div>
+    </header>
+
+    <main class="container page">
+      <section class="search-panel">
+        <div style="display:flex;align-items:center;gap:20px;">
+          <div>
+            <h1>Cari Tutor</h1>
+            <p style="max-width:520px">Cari tutor berdasarkan mata kuliah atau kata kunci. Temukan pengajar yang sesuai dengan gaya belajar Anda.</p>
+          </div>
+          <div class="hero-ill" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <rect x="2" y="4" width="20" height="14" rx="2" fill="#fff" stroke="#dbeafe" stroke-width="1.2"/>
+              <path d="M6 8h12M6 11h9" stroke="#7c9cff" stroke-width="1.6" stroke-linecap="round"/>
+              <circle cx="18" cy="17" r="2" fill="#7c9cff"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="search-row">
+          <select id="matkul-filter">
+            <option value="">Semua Mata Kuliah</option>
+            <option>Matematika</option>
+            <option>Aljabar Matriks</option>
+            <option>Kalkulus</option>
+            <option>Statistika</option>
+            <option>Pemrograman</option>
+          </select>
+          <button id="search-btn" class="submit-btn">Cari</button>
+        </div>
+      </section>
+      
+      <!-- Tutor detail modal -->
+      <div id="detail-backdrop" class="modal-backdrop" style="display:none">
+        <div class="modal" role="dialog" aria-modal="true">
+          <button id="detail-close" class="close">×</button>
+          <div style="display:flex;gap:14px;align-items:center;">
+            <div class="avatar large" id="detail-avatar">AR</div>
+            <div style="flex:1">
+              <h3 id="detail-name">Nama Tutor</h3>
+              <div id="detail-matkul" class="muted">Mata Kuliah</div>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <div id="detail-rating" class="muted">Rating</div>
+            <p id="detail-bio" class="muted" style="margin-top:8px"></p>
+          </div>
+          <div id="detail-reviews" style="margin-top:12px"></div>
+          <div class="modal-actions">
+            <a id="detail-book" class="submit-btn" href="#">Pesan Sekarang</a>
+            <button id="detail-close-2" class="cancel">Tutup</button>
+          </div>
+        </div>
+      </div>
+
+      <section class="results-panel">
+        <div id="results" class="tutor-list"></div>
+      </section>
+    </main>
+
+    <script>
+      // Read URL param 'matkul' to prefill and auto-search
+      function getQueryParam(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name) || '';
+      }
+
+      const tutors = [
+        { name: 'Arif Rahman', matkul: 'Statistika', rating: 4.9, mode: 'Online', price: 50000, bio: 'Tutor Statistika berpengalaman 5+ tahun, mengajar dengan pendekatan visual dan latihan soal.', reviews: [{user:'Siti',text:'Membantu saya lulus statistik!',r:5},{user:'Andi',text:'Cara mengajarnya jelas.',r:4}] },
+        { name: 'Dewi Sari', matkul: 'Aljabar Matriks', rating: 4.8, mode: 'Luring', price: 45000, bio: 'Spesialis aljabar linear dan matriks, sabar dan sistematis dalam menjelaskan konsep.', reviews: [{user:'Riyan',text:'Sabar dan komunikatif.',r:5}] },
+        { name: 'Rina Putri', matkul: 'Kalkulus', rating: 4.7, mode: 'Online', price: 40000, bio: 'Pengajar kalkulus dengan fokus aplikasi nyata dan problem solving cepat.', reviews: [{user:'Maya',text:'Penjelasan aplikatif, recommended.',r:5}] },
+        { name: 'Budi Santoso', matkul: 'Pemrograman', rating: 4.6, mode: 'Luring', price: 60000, bio: 'Praktisi pemrograman yang mengajar dari dasar sampai proyek nyata.', reviews: [{user:'Fajar',text:'Proyeknya menarik dan menantang.',r:4}] },
+        { name: 'Cici Lestari', matkul: 'Matematika', rating: 4.5, mode: 'Online', price: 35000, bio: 'Tutor Matematika yang ramah, sering memberikan contoh riil pada tiap materi.', reviews: [{user:'Lina',text:'Mudah dimengerti.',r:5}] }
+      ];
+
+      const resultsEl = document.getElementById('results');
+      const matkulEl = document.getElementById('matkul-filter');
+      const btn = document.getElementById('search-btn');
+
+      function render(list) {
+        if (!list.length) {
+          resultsEl.innerHTML = '<p>Tidak ditemukan tutor untuk kriteria tersebut.</p>';
+          return;
+        }
+        resultsEl.innerHTML = list.map(t => `
+          <div class="tutor-card">
+            <div class="tutor-left">
+              <div class="avatar small">${t.name.split(' ').map(n=>n[0]).slice(0,2).join('')}</div>
+            </div>
+            <div class="tutor-mid">
+              <strong>${t.name}</strong>
+              <div class="muted">${t.matkul} • ${t.rating} ★</div>
+              <div class="muted">${t.mode} • <span class="price">Rp${t.price.toLocaleString('id-ID')}</span></div>
+              <div class="muted small">${t.bio.split(' ').slice(0,12).join(' ')}...</div>
+            </div>
+            <div class="tutor-right">
+              <a class="secondary-btn" href="#" data-name="${t.name}">Lihat</a>
+              <a class="submit-btn" href="#" data-book="${t.name}">Booking</a>
+            </div>
+          </div>
+        `).join('');
+        attachResultHandlers();
+      }
+
+      // attach event handlers to result buttons (called after render)
+      function attachResultHandlers(){
+        // Lihat (detail)
+        document.querySelectorAll('.secondary-btn[data-name]').forEach(btn => {
+          btn.addEventListener('click', (e)=>{
+            e.preventDefault();
+            const name = btn.dataset.name;
+            const t = tutors.find(x=>x.name === name);
+            if (!t) return;
+            document.getElementById('detail-name').textContent = t.name;
+            document.getElementById('detail-matkul').textContent = t.matkul + ' • ' + t.mode;
+            document.getElementById('detail-rating').textContent = 'Rating: ' + t.rating + ' ★';
+            document.getElementById('detail-bio').textContent = t.bio;
+            document.getElementById('detail-avatar').textContent = t.name.split(' ').map(n=>n[0]).slice(0,2).join('');
+            // render reviews
+            const revWrap = document.getElementById('detail-reviews');
+            revWrap.innerHTML = t.reviews.map(r=>`<div style="padding:10px;border-radius:10px;background:#fff;margin-top:8px;border:1px solid var(--line)"><strong>${r.user}</strong><div class=\"muted\" style=\"margin-top:6px\">${r.text}</div></div>`).join('');
+            document.getElementById('detail-book').setAttribute('href', 'booking-saya.html?book=' + encodeURIComponent(t.name));
+            detailBackdrop.style.display = 'flex';
+          });
+        });
+
+        // Booking from list
+        document.querySelectorAll('a[data-book]').forEach(b => {
+          b.addEventListener('click', (e)=>{
+            e.preventDefault();
+            const name = b.dataset.book;
+            window.location.href = 'booking-saya.html?book=' + encodeURIComponent(name);
+          });
+        });
+      }
+
+      function filterAndRender() {
+        const mat = matkulEl.value;
+
+        const filtered = tutors.filter(t => {
+          const matchMat = !mat || t.matkul === mat;
+          return matchMat;
+        });
+
+        render(filtered);
+      }
+
+      btn.addEventListener('click', filterAndRender);
+
+      // prefill from query param and run initial search
+      const preMatkul = getQueryParam('matkul');
+      if (preMatkul) {
+        // try to set select if exists
+        for (let i=0;i<matkulEl.options.length;i++) {
+          if (matkulEl.options[i].text === preMatkul) matkulEl.selectedIndex = i;
+        }
+        filterAndRender();
+      } else {
+        render(tutors);
+      }
+
+      // detail modal refs and handlers
+      const detailBackdrop = document.getElementById('detail-backdrop');
+      const detailClose = document.getElementById('detail-close');
+      const detailClose2 = document.getElementById('detail-close-2');
+
+      function closeDetail(){ detailBackdrop.style.display = 'none'; }
+      detailClose.addEventListener('click', closeDetail);
+      detailClose2.addEventListener('click', closeDetail);
+      detailBackdrop.addEventListener('click', (e)=>{ if (e.target === detailBackdrop) closeDetail(); });
+    </script>
+  </body>
+</html>
